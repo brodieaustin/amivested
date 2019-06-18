@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Am I Vested?</title>
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,900" rel="stylesheet">
+  <style>
+    *{
+      box-sizing: border-box;
+    }
+    html, body{
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    body{
+      background: #EC6F66;  /* fallback for old browsers */
+      background: -webkit-linear-gradient(to bottom, #F3A183, #EC6F66);  /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to bottom, #F3A183, #EC6F66); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      text-align: center;
+      font-family: "Poppins", sans-serif;
+      line-height: 1.2;
+    }
+    main{
+      max-width: 64rem;
+      margin: auto;
+    }
+    h1{
+      margin-bottom: .5rem;
+      font-weight: 900;
+      font-size: 2.875rem;
+    }
+    @media screen and (min-width: 40rem){
+      h1{
+        font-size: 7vw;
+      }
+    }
+    .vested-response{
+      margin-top: 0;
+      font-size: 3vw;
+    }
+    .vested-countdown{
+      height: 0;
+      max-width: 80%;
+      margin: auto;
+      padding: 0;
+      list-style: none;
+      overflow: hidden;
+    }
+    @media screen and (min-width: 40rem){
+      .vested-countdown{
+        display: flex;
+        justify-content: center;
+      }
+
+    }
+    .vested-countdown li{
+      position: relative;
+      height: 4rem;
+      line-height: 4rem;
+      vertical-align: middle;
+      margin: .5rem;
+      font-weight: 900;
+      text-align: center;
+      font-size: 2rem;
+    }
+
+    @media screen and (min-width: 40rem){
+      .vested-countdown li{
+        height: 6.5rem;
+        width: 7rem;
+        background-color: white;
+        line-height: 6.5rem;
+        vertical-align: middle;
+        font-size: 3rem;
+      }
+    }
+    .vested-countdown li:after{
+      position: absolute;
+      bottom: -2rem;
+      left: 0;
+      width: 100%;
+      display: block;
+      font-size: .5rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .vested-years:after{
+      content: "Year";
+    }
+    .vested-months:after{
+      content: "Months";
+    }
+    .vested-days:after{
+      content: "Days";
+    }
+    .vested-hours:after{
+      content: "Hours";
+    }
+    .vested-minutes:after{
+      content: "Minutes";
+    }
+    .vested-seconds:after{
+      content: "Seconds";
+    }
+    .congrats{
+      height: 0;
+    }
+    .visible{
+      height: auto;
+      overflow: visible;
+    }
+
+  </style>
+</head>
+<body>
+  <main role="main">
+    <h1>Am I vested yet?</h1>
+    <p class="vested-response"></p>
+    <ul class="vested-countdown">
+      <li class="vested-years"></li>
+      <li class="vested-months"></li>
+      <li class="vested-days"></li>
+      <li class="vested-hours"></li>
+      <li class="vested-minutes"></li>
+      <li class="vested-seconds"></li>
+    </ul>
+    <img src="https://media.giphy.com/media/g9582DNuQppxC/giphy.gif" class="congrats">
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+  <script>
+    (function(){
+      var congrats = document.querySelector('.congrats');
+      var vested_message = document.querySelector('.vested-response');
+      var vested_countdown = document.querySelector('.vested-countdown');
+      var vested_years = document.querySelector('.vested-years');
+      var vested_months = document.querySelector('.vested-months');
+      var vested_days = document.querySelector('.vested-days');
+      var vested_hours = document.querySelector('.vested-hours');
+      var vested_minutes = document.querySelector('.vested-minutes');
+      var vested_seconds = document.querySelector('.vested-seconds');
+
+      var vested_date = moment("2019-09-30");
+      var current_date = moment();
+      var time_difference = vested_date - current_date;
+      console.log(time_difference)
+      var duration = moment.duration(time_difference, 'milliseconds');
+      var interval = 1000;
+
+      if (current_date.isBefore(vested_date)){
+        vested_message.innerText = "No, you're not."
+        vested_countdown.classList.add('visible');
+
+        setInterval(function(){
+          duration = moment.duration(duration - interval, 'milliseconds');
+          vested_years.innerText = duration.years();
+          vested_months.innerText = duration.months();
+          vested_days.innerText = duration.days();
+          vested_hours.innerText = duration.hours();
+          vested_minutes.innerText = duration.minutes();
+          vested_seconds.innerText = duration.seconds();
+        }, interval);
+
+      }
+      else{
+        vested_message.innerText = "Yes, you are!"
+        congrats.classList.add('visible');
+      }
+
+    })();
+  </script>
+</body>
+</html>
